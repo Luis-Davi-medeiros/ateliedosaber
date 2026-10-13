@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Admin — Ateliê do Saber</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-icon">🎨</div>
+      <h1>Ateliê do Saber</h1>
+      <p>Painel de Administração</p>
+    </div>
+    <form id="login-form" class="login-form">
+      <div class="field-group">
+        <label>Usuário</label>
+        <input type="text" id="login-user" placeholder="admin" autocomplete="username" />
+      </div>
+      <div class="field-group">
+        <label>Senha</label>
+        <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" />
+        <span class="field-hint" id="login-error" style="color:#ff6b6b;display:none">Usuário ou senha incorretos.</span>
+      </div>
+      <button type="submit" class="btn-primary btn-full" id="login-btn">
+        <span>Entrar no Painel</span>
+      </button>
+    </form>
+    <p class="login-hint">🔒 Senha padrão: <strong>admin123</strong> — altere nas configurações.</p>
+  </div>
+</div>
+
+<!-- ============ ADMIN PANEL ============ -->
+<div id="admin-panel" class="admin-panel" style="display:none">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-icon">🎨</span>
+        <div>
+          <span class="sidebar-title">Ateliê do Saber</span>
+          <span class="sidebar-subtitle">Admin Panel</span>
+        </div>
+      </div>
+      <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-page="products">
+        <span class="nav-icon">📦</span>
+        <span class="nav-label">Produtos</span>
+      </a>
+      <a href="#" class="nav-item" data-page="orders">
+        <span class="nav-icon">🛒</span>
+        <span class="nav-label">Pedidos</span>
+        <span class="nav-badge" id="orders-badge">0</span>
+      </a>
+      <a href="#" class="nav-item" data-page="customers">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">Clientes</span>
+      </a>
+      <a href="#" class="nav-item" data-page="files">
+        <span class="nav-icon">📁</span>
+        <span class="nav-label">Arquivos</span>
+      </a>
+      <a href="#" class="nav-item" data-page="coupons">
+        <span class="nav-icon">🎟️</span>
+        <span class="nav-label">Cupons</span>
+      </a>
+      <a href="#" class="nav-item" data-page="reports">
+        <span class="nav-icon">📈</span>
+        <span class="nav-label">Relatórios</span>
+      </a>
+      <a href="#" class="nav-item" data-page="settings">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Configurações</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="../index.html" target="_blank" class="nav-item">
+        <span class="nav-icon">🏪</span>
+        <span class="nav-label">Ver Loja</span>
+      </a>
+      <button class="nav-item logout-btn" id="logout-btn">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-label">Sair</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h2 class="page-title" id="page-title">Dashboard</h2>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-store-status">
+          <span class="status-dot active"></span>
+          <span>Loja Online</span>
+        </div>
+        <div class="topbar-avatar">
+          <span>A</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== PAGE: DASHBOARD ===== -->
+    <section class="page active" id="page-dashboard">
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-revenue">
+          <div class="kpi-icon">💰</div>
+          <div class="kpi-info">
+            <span class="kpi-label">Receita Total</span>
+            <span class="kpi-value" id="kpi-revenue">R$ 0,00</span>
+            <span class="kpi-delta" id="kpi-revenue-delta">— sem dados ainda</span>
+          </div>
+        </div>
+        <div class="kpi-card kpi-orders">
+          <div class="kpi-icon">🛒</div>
+          <div class="kpi-info">
+            <span class="kpi-label">Total de Pedidos</span>
+            <span class="kpi-value" id="kpi-orders">0</span>
+            <span class="kpi-delta" id="kpi-orders-delta">— sem dados ainda</span>
+          </div>
+        </div>
+        <div class="kpi-card kpi-customers">
+          <div class="kpi-icon">👥</div>
+          <div class="kpi-info">
+            <span class="kpi-label">Clientes Únicos</span>
+            <span class="kpi-value" id="kpi-customers">0</span>
+            <span class="kpi-delta" id="kpi-customers-delta">— sem dados ainda</span>
+          </div>
+        </div>
+        <div class="kpi-card kpi-ticket">
+          <div class="kpi-icon">🎯</div>
+          <div class="kpi-info">
+            <span class="kpi-label">Ticket Médio</span>
+            <span class="kpi-value" id="kpi-ticket">R$ 0,00</span>
+            <span class="kpi-delta" id="kpi-ticket-delta">— sem dados ainda</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <h3>Últimos Pedidos</h3>
+            <button class="btn-ghost" onclick="navigateTo('orders')">Ver todos →</button>
+          </div>
+          <div class="card-body" id="dash-recent-orders">
+            <div class="empty-state">
+              <span class="empty-icon">🛒</span>
+              <p>Nenhum pedido ainda.<br>Compartilhe sua loja para começar a vender!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Produtos Mais Vendidos</h3>
+          </div>
+          <div class="card-body" id="dash-top-products">
+            <div class="empty-state">
+              <span class="empty-icon">📦</span>
+              <p>Dados aparecerão após as primeiras vendas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header">
+          <h3>📊 Vendas nos Últimos 7 Dias</h3>
+        </div>
+        <div class="card-body">
+          <canvas id="sales-chart" height="80"></canvas>
+          <div id="chart-empty" class="empty-state" style="padding:2rem">
+            <span class="empty-icon">📈</span>
+            <p>O gráfico aparecerá quando houver vendas registradas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: PRODUCTS ===== -->
+    <section class="page" id="page-products">
+      <div class="page-actions">
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="products-search" placeholder="Buscar produto..." oninput="filterProducts()" />
+        </div>
+        <button class="btn-primary" onclick="openProductModal()">+ Novo Produto</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table" id="products-table">
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Vendas</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: ORDERS ===== -->
+    <section class="page" id="page-orders">
+      <div class="page-actions">
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="orders-search" placeholder="Buscar por e-mail, nome ou ID..." oninput="filterOrders()" />
+        </div>
+        <div class="filter-chips">
+          <button class="chip active" onclick="filterOrdersByStatus('all', this)">Todos</button>
+          <button class="chip" onclick="filterOrdersByStatus('approved', this)">✅ Aprovados</button>
+          <button class="chip" onclick="filterOrdersByStatus('pending', this)">⏳ Pendentes</button>
+          <button class="chip" onclick="filterOrdersByStatus('rejected', this)">❌ Rejeitados</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Produtos</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody">
+              <tr>
+                <td colspan="7">
+                  <div class="empty-state">
+                    <span class="empty-icon">🛒</span>
+                    <p>Nenhum pedido registrado ainda.</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: CUSTOMERS ===== -->
+    <section class="page" id="page-customers">
+      <div class="page-actions">
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="customers-search" placeholder="Buscar cliente..." oninput="filterCustomers()" />
+        </div>
+        <button class="btn-secondary" onclick="exportCustomers()">⬇ Exportar CSV</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>CPF</th>
+                <th>Compras</th>
+                <th>Total Gasto</th>
+                <th>Último Pedido</th>
+              </tr>
+            </thead>
+            <tbody id="customers-tbody">
+              <tr>
+                <td colspan="6">
+                  <div class="empty-state">
+                    <span class="empty-icon">👥</span>
+                    <p>Nenhum cliente registrado ainda.</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: FILES ===== -->
+    <section class="page" id="page-files">
+      <div class="page-actions">
+        <label class="btn-primary" style="cursor:pointer">
+          ⬆ Upload de PDF
+          <input type="file" accept=".pdf" multiple style="display:none" onchange="handleFileUpload(event)" />
+        </label>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>📁 Arquivos Disponíveis para Download</h3>
+          <span class="badge-count" id="files-count">0 arquivos</span>
+        </div>
+        <div class="files-grid" id="files-grid">
+          <div class="empty-state">
+            <span class="empty-icon">📁</span>
+            <p>Carregando arquivos...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: COUPONS ===== -->
+    <section class="page" id="page-coupons">
+      <div class="page-actions">
+        <button class="btn-primary" onclick="openCouponModal()">+ Novo Cupom</button>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Desconto</th>
+                <th>Usos</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="coupons-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: REPORTS ===== -->
+    <section class="page" id="page-reports">
+      <div class="report-filters">
+        <div class="field-group">
+          <label>Período</label>
+          <select id="report-period" onchange="updateReports()">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30">Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="365">Último ano</option>
+          </select>
+        </div>
+        <button class="btn-secondary" onclick="exportReport()">⬇ Exportar Relatório</button>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon">💰</div>
+          <div class="kpi-info">
+            <span class="kpi-label">Faturamento no Período</span>
+            <span class="kpi-value" id="report-revenue">R$ 0,00</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🛒</div>
+          <div class="kpi-info">
+            <span class="kpi-label">Pedidos no Período</span>
+            <span class="kpi-value" id="report-orders">0</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🎯</div>
+          <div class="kpi-info">
+            <span class="kpi-label">Ticket Médio</span>
+            <span class="kpi-value" id="report-ticket">R$ 0,00</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🎟️</div>
+          <div class="kpi-info">
+            <span class="kpi-label">Cupons Utilizados</span>
+            <span class="kpi-value" id="report-coupons-used">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header"><h3>Vendas por Produto</h3></div>
+        <div class="card-body" id="report-by-product">
+          <div class="empty-state">
+            <span class="empty-icon">📈</span>
+            <p>Dados disponíveis após as primeiras vendas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE: SETTINGS ===== -->
+    <section class="page" id="page-settings">
+      <div class="settings-grid">
+
+        <div class="card">
+          <div class="card-header"><h3>🏪 Dados da Loja</h3></div>
+          <div class="card-body">
+            <div class="field-group">
+              <label>Nome da Loja</label>
+              <input type="text" id="cfg-store-name" value="Ateliê do Saber" />
+            </div>
+            <div class="field-group">
+              <label>Descrição</label>
+              <textarea id="cfg-store-desc" rows="2">Materiais pedagógicos digitais para professores</textarea>
+            </div>
+            <div class="field-group">
+              <label>E-mail de Notificações</label>
+              <input type="email" id="cfg-notify-email" placeholder="seuemail@gmail.com" />
+            </div>
+            <button class="btn-primary" onclick="saveSettings('store')">Salvar Dados da Loja</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>💳 Mercado Pago</h3></div>
+          <div class="card-body">
+            <div class="field-group">
+              <label>Access Token de Produção</label>
+              <input type="password" id="cfg-mp-token" placeholder="APP_USR-..." />
+              <span class="field-hint">Obtenha em: mercadopago.com.br/developers</span>
+            </div>
+            <div class="field-group">
+              <label>Modo</label>
+              <select id="cfg-mp-mode">
+                <option value="sandbox">🧪 Sandbox (Testes)</option>
+                <option value="production">🚀 Produção (PIX Real)</option>
+              </select>
+            </div>
+            <button class="btn-primary" onclick="saveSettings('mp')">Salvar Configurações de Pagamento</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>🔐 Segurança do Painel</h3></div>
+          <div class="card-body">
+            <div class="field-group">
+              <label>Usuário Admin</label>
+              <input type="text" id="cfg-admin-user" value="admin" />
+            </div>
+            <div class="field-group">
+              <label>Nova Senha</label>
+              <input type="password" id="cfg-admin-pass" placeholder="••••••••" />
+            </div>
+            <div class="field-group">
+              <label>Confirmar Senha</label>
+              <input type="password" id="cfg-admin-pass2" placeholder="••••••••" />
+            </div>
+            <button class="btn-primary" onclick="saveSettings('security')">Alterar Senha</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>🚀 Deploy e Publicação</h3></div>
+          <div class="card-body">
+            <div class="deploy-info">
+              <div class="deploy-item">
+                <span class="deploy-icon">🌐</span>
+                <div>
+                  <strong>Vercel (Recomendado)</strong>
+                  <p>Deploy gratuito com domínio automático e serverless functions.</p>
+                  <code>npx vercel</code>
+                </div>
+              </div>
+              <div class="deploy-item">
+                <span class="deploy-icon">📋</span>
+                <div>
+                  <strong>Variáveis de Ambiente Necessárias</strong>
+                  <p>Configure no painel da Vercel:</p>
+                  <code>MERCADO_PAGO_ACCESS_TOKEN</code>
+                  <code>ADMIN_PASSWORD</code>
+                </div>
+              </div>
+            </div>
+            <a href="https://vercel.com/new" target="_blank" class="btn-primary" style="display:inline-block;text-decoration:none;margin-top:1rem">
+              🚀 Abrir Vercel
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== MODAL: PRODUTO ===== -->
+<div class="modal-overlay" id="product-modal-overlay" onclick="closeProductModal(event)">
+  <div class="modal" id="product-modal">
+    <div class="modal-header">
+      <h3 id="product-modal-title">Novo Produto</h3>
+      <button class="modal-close" onclick="closeProductModalBtn()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="product-form">
+        <input type="hidden" id="prod-id" />
+        <div class="form-row">
+          <div class="field-group">
+            <label>Nome do Produto *</label>
+            <input type="text" id="prod-title" required placeholder="Ex: Kit Alfabetização..." />
+          </div>
+          <div class="field-group">
+            <label>Categoria *</label>
+            <select id="prod-category">
+              <option value="combos">Combos & Packs</option>
+              <option value="alfabetizacao">Alfabetização</option>
+              <option value="matematica">Matemática</option>
+              <option value="infantil">Educação Infantil</option>
+              <option value="leitura">Leitura & BNCC</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field-group">
+            <label>Preço (R$) *</label>
+            <input type="number" id="prod-price" step="0.01" min="1" required placeholder="29.90" />
+          </div>
+          <div class="field-group">
+            <label>Preço Original (R$)</label>
+            <input type="number" id="prod-old-price" step="0.01" min="1" placeholder="59.90" />
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Descrição *</label>
+          <textarea id="prod-desc" rows="3" required placeholder="Descreva os materiais incluídos..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="field-group">
+            <label>Faixa Etária</label>
+            <input type="text" id="prod-age" placeholder="4 a 7 anos" />
+          </div>
+          <div class="field-group">
+            <label>Códigos BNCC</label>
+            <input type="text" id="prod-bncc" placeholder="EF01LP01, EF01LP02" />
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Tag de Destaque</label>
+          <select id="prod-tag">
+            <option value="hot">🔥 Mais Vendido</option>
+            <option value="bncc">📚 Alinhado à BNCC</option>
+            <option value="promo">🎉 Oferta Especial</option>
+            <option value="launch">🚀 Lançamento</option>
+            <option value="new">✨ Novo</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Arquivos PDF incluídos</label>
+          <div class="files-checkboxes" id="prod-files-list"></div>
+        </div>
+        <div class="field-group">
+          <label>Status</label>
+          <select id="prod-status">
+            <option value="active">✅ Ativo (visível na loja)</option>
+            <option value="inactive">❌ Inativo (oculto)</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeProductModalBtn()">Cancelar</button>
+      <button class="btn-primary" onclick="saveProduct()">💾 Salvar Produto</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: CUPOM ===== -->
+<div class="modal-overlay" id="coupon-modal-overlay" onclick="closeCouponModal(event)">
+  <div class="modal modal-sm" id="coupon-modal">
+    <div class="modal-header">
+      <h3 id="coupon-modal-title">Novo Cupom</h3>
+      <button class="modal-close" onclick="closeCouponModalBtn()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-group">
+        <label>Código do Cupom *</label>
+        <input type="text" id="coupon-code" placeholder="EX: BEMVINDO20" style="text-transform:uppercase" />
+      </div>
+      <div class="field-group">
+        <label>Desconto (%)</label>
+        <input type="number" id="coupon-discount" min="1" max="99" placeholder="15" />
+      </div>
+      <div class="field-group">
+        <label>Status</label>
+        <select id="coupon-status">
+          <option value="active">✅ Ativo</option>
+          <option value="inactive">❌ Inativo</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeCouponModalBtn()">Cancelar</button>
+      <button class="btn-primary" onclick="saveCoupon()">💾 Salvar Cupom</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: DETALHES DO PEDIDO ===== -->
+<div class="modal-overlay" id="order-modal-overlay" onclick="closeOrderModal(event)">
+  <div class="modal" id="order-modal">
+    <div class="modal-header">
+      <h3>Detalhes do Pedido</h3>
+      <button class="modal-close" onclick="closeOrderModalBtn()">✕</button>
+    </div>
+    <div class="modal-body" id="order-modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeOrderModalBtn()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>

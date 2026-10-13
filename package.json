@@ -1,0 +1,14 @@
+{
+  "name": "atelie-do-saber",
+  "version": "1.0.0",
+  "description": "Loja virtual de materiais didáticos e atividades lúdicas em PDF",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js",
+    "dev": "node serve.js"
+  },
+  "dependencies": {
+    "isomorphic-git": "^1.44.2",
+    "mercadopago": "^2.3.0"
+  }
+}
